@@ -14,11 +14,10 @@ interface PostParams {
 export async function generateStaticParams() {
   const posts = await client.fetch(postPathsQuery);
   return posts.map((post: { slug: string }) => ({
-    slug: post.slug,  // This should return an object with `slug`
+    params: { slug: post.slug },
   }));
 }
 
-// Use the PostParams interface for the params prop
 const PostPage = async ({ params }: { params: PostParams }) => {
   const post = await sanityFetch<SanityDocument>({
     query: postQuery,
@@ -30,8 +29,3 @@ const PostPage = async ({ params }: { params: PostParams }) => {
 
 export default PostPage;
 
-
-  return <Post post={post} />;
-};
-
-export default PostPage;
