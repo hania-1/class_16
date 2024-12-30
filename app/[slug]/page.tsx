@@ -28,3 +28,8 @@ const PostPage = async ({ params }: { params: PostParams }) => {
 };
 
 export default PostPage;
+
+  return <Post post={post} />;
+};
+
+export default PostPage;
