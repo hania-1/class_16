@@ -6,30 +6,17 @@ import Post from "../components/Post";
 
 export const revalidate = 60;
 
-// Define the type for the params
-interface PostParams {
-  slug: string;
-}
-
-// Use generateStaticParams to fetch the list of posts and their slugs
 export async function generateStaticParams() {
   const posts = await client.fetch(postPathsQuery);
-  return posts.map((post: { slug: string }) => ({
-    params: { slug: post.slug },  // Ensure it returns an object with `params`
-  }));
+  return posts
 }
 
-// Define the PostPage component
-const PostPage = async ({ params }: { params: PostParams }) => {
-  // Fetch the post data using the slug
-  const post = await sanityFetch<SanityDocument>({
-    query: postQuery,
-    params: { slug: params.slug },
-  });
+const PostPage = async ({ params }: { params: any }) => {
+  const post = await sanityFetch<SanityDocument>({ query: postQuery, params })
+  return (
+    <Post post={post} />
+  )
+}
 
-  // Render the Post component with the fetched data
-  return <Post post={post} />;
-};
-
-export default PostPage;
+export default PostPage
 
